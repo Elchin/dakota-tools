@@ -1,0 +1,20 @@
+environment
+tabular_data
+tabular_data_file = 'dakota_temp.dat'
+method 
+ vector_parameter_study
+final_point = 0.07425 num_steps = 100
+model single
+variables
+continuous_design = 1
+initial_point = 0.06075 
+descriptors 'a6'
+interface,
+fork
+   analysis_drivers = 'objective_function.py'
+parameters_file = 'params.in'
+results_file = 'results.out'
+responses
+objective_functions = 1
+no_gradients
+no_hessians
