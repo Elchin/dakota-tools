@@ -183,3 +183,4 @@ for param in gene_params.keys():
 ```
 Now that we have set this report's seed to the approximate equilibrium found by the genetic optimization, we can cycle through every key in the parameter list and one by one change the parameter study's scope to that key and then run a seperate parameter study for each one.
 
+The results of this parameter study can be viewed [here.s](https://github.com/JasonCyrus/dakota-tools/blob/master/Visualize_Report.ipynb)
