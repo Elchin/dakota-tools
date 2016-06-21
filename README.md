@@ -150,9 +150,9 @@ param_study = { 'group':'Genetic_param_study02',
 Here we define our two different dakota analysis methods `gene_report` for genetic optimization and `param_study` for a 1-D parameter study. Note how they are both linked by the `group` tag. The group tag makes retrieval of diagnostic reports simple as one can simply make a query for all reports of a specified group tag. The `scope` tag specifies the variables that are being used for a certain dakota action. The variables used should be passed within an array and appear within the model's schema file. 
 ``` Python
 #call 'execute_dakota' with a genetic optimiaz
-#gene_report = dr.execute_dakota(**gene_report)
+gene_report = dr.execute_dakota(**gene_report)
 #insert genetic report into database
-#dr.insert_document(gene_report)
+dr.insert_document(gene_report)
 ```
 From the dakota_report library call `execute_dakota(**<REPORT_NAME>)` to perform a dakota operation and have the diagnostics package passed back as a Python dictionary. To insert one of these reports into the local MongoDB database pass it into the `insert_document()` function.
 ``` Python
