@@ -26,7 +26,8 @@ def make_dakota(model,**kwargs):
             method+='final_point = ' + str(mod_range[kwargs['scope'][0]][1]) + '\n'
 
         method+='num_steps = ' + str(kwargs['steps'])
-    
+    elif (kwargs['method'] == 'sampling'):
+        method += 'sample_type lhs \n' + 'samples = ' + str(kwargs['samples']) + '\n'
     #Add unique identifiers to method
     if 'meth_spec' in kwargs:
         method+=kwargs['meth_spec']
@@ -37,7 +38,18 @@ def make_dakota(model,**kwargs):
     method+='\n'+ 'model single'
     #Get amount of variables from the scope
     var_amt = np.shape(kwargs['scope'])[0]
-    variables = 'variables\n'+'continuous_design = ' + str(var_amt)+'\n'
+    
+    #create variables section
+    variables = 'variables\n'
+    if ('scope_type' in kwargs):
+        if (kwargs['scope_type'] == 'uniform_uncertain'):
+            variables += 'active uncertain \n'
+        variables += kwargs['scope_type']
+    else:
+        variables += 'continuous_design '
+
+    variables += ' = ' + str(var_amt)+'\n'
+
     interface = ('interface,\n'+ 'fork\n'+ '   analysis_drivers = \'' + model['driver_path'] +'\'\nparameters_file = \'params.in\''+'\nresults_file = \'results.out\'')
 
     response = 'responses\n'+'objective_functions = 1\n'
@@ -311,3 +323,41 @@ def get_out_data():
 
     print type(coef_6)
     return out_dat
+
+# Will generate a seed pt from a models sythetic parameter set
+# Th
+def synth_seed(model,per_rad):
+    #load synth file
+    syn_params = np.loadtxt(model['syn_params'],skiprows = 2)
+    #load mineral schema
+    schema = np.array([line.split() for line in open(model['schema']).readlines()])
+    #cycle through keys in models ranges
+    this_seed = {}
+    for param in model['range'].keys():
+        #parameter location in file
+        loc = np.where(schema==param)
+        print param + ':' + str(syn_params[loc])
+        val = syn_params[loc]
+        #Generate random radial offset %
+        scale = rand.uniform(-per_rad,per_rad)
+        new_val =  val + (val*scale)
+        this_seed[param] = new_val[0]
+
+    return this_seed
+
+# Will return the synthetic parameter set from a model
+def get_synth(model):
+    #load synth file
+    syn_params = np.loadtxt(model['syn_params'],skiprows = 2)
+    #load mineral schema
+    schema = np.array([line.split() for line in open(model['schema']).readlines()])
+    #cycle through keys in models ranges
+    this_seed = {}
+    for param in model['range'].keys():
+        #parameter location in file
+        loc = np.where(schema==param)
+        print param + ':' + str(syn_params[loc])
+        val = syn_params[loc]
+        this_seed[param] = val[0]
+    
+    return this_seed

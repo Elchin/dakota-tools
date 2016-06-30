@@ -11,7 +11,7 @@ import dakota_report as dr
 ###Our two input report modules. Note they are linked with the 'group' tag
 
 #Genetic Optimization
-gene_report = { 'group':'Genetic_param_study01',
+gene_report = { 'group':'Genetic_param_study',
                 'model_id':'GIPL',
                 'method':'genie_direct',
                 'var_type':'model_bound',
@@ -22,7 +22,7 @@ gene_report = { 'group':'Genetic_param_study01',
 param_study = { 'group':'Genetic_param_study02',
                 'model_id':'GIPL',
                 'method':'vector_parameter_study',
-                'scope':['a1'],
+                'scope':'all',
                 'seed_pt':{},
                 'var_type':'per_expan',
                 'per_expan':0.10,
@@ -32,12 +32,12 @@ param_study = { 'group':'Genetic_param_study02',
 
 
 #call 'execute_dakota' with a genetic optimiaz
-#gene_report = dr.execute_dakota(**gene_report)
+gene_report = dr.execute_dakota(**gene_report)
 #insert genetic report into database
-#dr.insert_document(gene_report)
+dr.insert_document(gene_report)
 
 #OR... Retrieve the report from the database
-gene_report = dr.retrieve_document({'group':'Genetic_param_study','method':'genie_direct'})
+#gene_report = dr.retrieve_document({'group':'Genetic_param_study','method':'genie_direct'})
 
 
 #Retrieve the optimized post parameters from the report
@@ -47,14 +47,14 @@ gene_params.pop('obj_fn',None)
 #Set the param studys' seed
 param_study['seed_pt'] = gene_params
 
-#Iterate through parameters performing 1D parameter studies
-for param in gene_params.keys():
+##Iterate through parameters performing 1D parameter studies
+#for param in gene_params.keys():
     #Change param_study scope
-    param_study['scope'][0] = param
+    #   param_study['scope'][0] = param
     #Perform parameter study
-    print 'STARTING PARAM STUDY FOR ' + param
-    param_report = dr.execute_dakota(**param_study)
+    #  print 'STARTING PARAM STUDY FOR ' + param
+    #  param_report = dr.execute_dakota(**param_study)
     #Insert report into database
-    dr.insert_document(param_report)
+#  dr.insert_document(param_report)
 
 

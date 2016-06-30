@@ -197,6 +197,22 @@ def find_documents(key_vals):
 #get document based on key val
 
 
+#Retrieve n lowest obj_fun's and the corresponding parameters from a report file
+def find_n_lowest(report,n):
+    #grab out data
+    out_dat = report['out_data']
+    #grab obj_fun
+    obj_fun = out_dat['obj_fn']
+    #sort list and grab first n
+    obj_sort = np.argsort(obj_fun)[0:n]
+    low_params = {}
+    #recreate lists of params
+    for key in out_dat.keys():
+        low_params[key] = out_dat[key][list(obj_sort)]
+
+    return low_params
+
+
 #Initially add the GIPL model into the db
 #insert_document(GIPL)
 #print retrieve_document({'model_id':'GIPL','type':'model'})

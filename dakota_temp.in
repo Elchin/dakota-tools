@@ -3,12 +3,12 @@ tabular_data
 tabular_data_file = 'dakota_temp.dat'
 method 
  vector_parameter_study
-final_point = 0.07425 num_steps = 100
+final_point = -0.2916 -0.0981 -0.1935 -0.171 -0.81 -0.54 1.562 1.958 2.695 1.1539 0.8932 1.331 2.882 2.772 2.244 2.233 2.343 2.255 0.077 0.066 0.0011 0.0198 0.066 0.0737 num_steps = 100
 model single
 variables
-continuous_design = 1
-initial_point = 0.06075 
-descriptors 'a6'
+continuous_design  = 24
+initial_point = -0.3564 -0.1199 -0.2365 -0.209 -0.99 -0.66 1.278 1.602 2.205 0.9441 0.7308 1.089 2.358 2.268 1.836 1.827 1.917 1.845 0.063 0.054 0.0009 0.0162 0.054 0.0603 
+descriptors 'b4' 'b5' 'b6' 'b1' 'b2' 'b3' 'kt4' 'kt5' 'kt6' 'kt1' 'kt2' 'kt3' 'kf6' 'kf4' 'kf5' 'kf2' 'kf3' 'kf1' 'a1' 'a3' 'a2' 'a5' 'a4' 'a6'
 interface,
 fork
    analysis_drivers = 'objective_function.py'
